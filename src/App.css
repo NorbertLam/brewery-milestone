@@ -23,6 +23,14 @@
   color: #61dafb;
 }
 
+.index-sidebar {
+  width: 30%;
+}
+
+.board-container{
+  width: 60%;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -31,3 +39,4 @@
     transform: rotate(360deg);
   }
 }
+

@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import BreweryContainer from './Containers/BreweryContainer'
+import BoardContainer from './Containers/BoardContainer';
 
 class App extends Component {
+
+  state = {
+    breweries: [],
+    boards: [],
+    minBoardsNames: [],
+    brewAndBoard: []
+  }
+
+  componentDidMount() {
+    fetch('https://api.openbrewerydb.org/breweries').then(resp => resp.json()).then(breweries => {
+      this.setState({breweries});
+    })
+  }
+
+  collectMinName= (nameArr)=>{
+    const newNameArr=[...this.state.minBoardsNames, nameArr];
+    this.setState({
+      minBoardsNames: newNameArr
+    },()=>console.log("inside app.js", this.state)
+    )
+  }
+
+  addBnB = (obj) => {
+      this.setState({
+      brewAndBoard: [...this.state.brewAndBoard, obj]
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <BreweryContainer breweries={this.state.breweries} boards={this.state.boards} minBoardNames={this.state.minBoardsNames} addBnB={this.addBnB}/>
+        <BoardContainer collectMinName={this.collectMinName} bnb={this.state.brewAndBoard}/>
       </div>
     );
   }
